@@ -5,11 +5,11 @@
     <groupId>org.vaadin</groupId>
     <artifactId>resetbuttonfortextfield</artifactId>
     <packaging>jar</packaging>
-    <version>1.2.2-SNAPSHOT</version>
+    <version>1.2.2-kirona</version>
     <name>ResetButtonForTextField</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <vaadin.version>7.6.4</vaadin.version>
+        <vaadin.version>8.0.6</vaadin.version>
         <vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
         <Implementation-Version>${project.version}</Implementation-Version>
         <Implementation-Title>${project.name}</Implementation-Title>
@@ -55,25 +55,59 @@
     <dependencies>
         <dependency>
             <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-server</artifactId>
+            <artifactId>vaadin-compatibility-server</artifactId>
             <version>${vaadin.version}</version>
         </dependency>
         <dependency>
             <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-client</artifactId>
+            <artifactId>vaadin-compatibility-client</artifactId>
             <version>${vaadin.version}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
     <build>
         <plugins>
+        
+<!--  KIRONA BUILD STEPS -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-jars</id>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.basedir}/lib</outputDirectory>
+              <excludeTypes>pom</excludeTypes>
+              <includeScope>test</includeScope>
+            </configuration>
+          </execution>
+          <execution>
+            <id>copy-source</id>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.basedir}/lib</outputDirectory>
+              <excludeTypes>pom</excludeTypes>
+              <includeScope>runtime</includeScope>
+              <failOnMissingClassifierArtifact>false</failOnMissingClassifierArtifact>              <classifier>sources</classifier>              
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+<!-- END KIRONA BUILD STEPS -->
+
+        
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.3</version>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
             <plugin>
